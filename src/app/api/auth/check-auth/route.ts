@@ -1,4 +1,4 @@
-// functions/index.js (Firebase project root)
+/* // functions/index.js (Firebase project root)
 // Require Firebase Functions for serverless deployment on Google Cloud
 const functions = require("firebase-functions");
 
@@ -16,4 +16,4 @@ exports.checkAuth = functions.https.onRequest((req: { cookies: { user: any; }; }
 
   // If cookie exists, respond with a 200 OK status and the username
   res.status(200).json({ user });
-});
+}); */
