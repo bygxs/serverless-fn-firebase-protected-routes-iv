@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
           href="/"
           className="text-2xl font-bold text-gray-800 dark:text-white"
         >
-          MyApp
+          Cloud Function 4 protected routes
         </Link>
         <div>
           {user ? (
