@@ -13,8 +13,15 @@ export default function ProtectedPage() {
 
   // Run this effect once on mount to check auth status
   useEffect(() => {
-    fetch("/api/auth/check-auth") // Fetch the Serverless Function
-      .then((res) => { // Handle the response
+    //  fetch("/api/auth/check-auth") // Fetch the Serverless Function
+    fetch(
+      "https://europe-west3-personne-bygxs-portfolio.cloudfunctions.net/checkAuth",
+      {
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        // Handle the response
         if (res.status === 401) router.push("/login"); // If 401 (Unauthorized), redirect to login
       })
       .catch(() => router.push("/login")); // If fetch fails (e.g., network error), redirect to login
@@ -36,7 +43,10 @@ export default function ProtectedPage() {
     <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
       {/* Navigation bar */}
       <nav className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md">
-        <Link href="/" className="text-2xl font-bold text-gray-800 dark:text-white">
+        <Link
+          href="/"
+          className="text-2xl font-bold text-gray-800 dark:text-white"
+        >
           MyApp {/* Home link */}
         </Link>
         <div>
@@ -58,7 +68,8 @@ export default function ProtectedPage() {
             Protected Page {/* Page title */}
           </h1>
           <p className="text-gray-800 dark:text-gray-300">
-            Welcome, {user}! This is a protected route. {/* Personalized welcome */}
+            Welcome, {user}! This is a protected route.{" "}
+            {/* Personalized welcome */}
           </p>
         </div>
       </div>

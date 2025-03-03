@@ -1,16 +1,19 @@
-// src/app/api/auth/check-auth/route.ts
-import { NextRequest, NextResponse } from "next/server"; // Import Next.js server utilities
+// functions/index.js (Firebase project root)
+// Require Firebase Functions for serverless deployment on Google Cloud
+const functions = require("firebase-functions");
 
-// Export a GET handler for the /api/auth/check-auth route
-export async function GET(request: NextRequest) {
-  // Grab the 'user' cookie from the incoming request
-  const user = request.cookies.get("user")?.value; // Undefined if no cookie, so optional chaining
+// Export an HTTP-triggered Cloud Function named 'checkAuth'
+exports.checkAuth = functions.https.onRequest((req: { cookies: { user: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error?: string; user?: any; }): void; new(): any; }; }; }) => {
+  // Extract the 'user' cookie set by AuthContext's login function
+  const user = req.cookies.user;
 
-  // If no user cookie exists, return a 401 Unauthorized response
+  // Check if the user cookie is missing or undefined (not logged in)
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 }); // JSON response with error message
+    // Respond with a 401 Unauthorized status and JSON error message
+    res.status(401).json({ error: "Unauthorized" });
+    return;
   }
 
-  // If user cookie exists, return it in a 200 OK response
-  return NextResponse.json({ user }); // Sends { user: "username" } back to client
-}
+  // If cookie exists, respond with a 200 OK status and the username
+  res.status(200).json({ user });
+});
